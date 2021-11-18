@@ -133,6 +133,7 @@ class MainPageViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = true
         collectionView.backgroundColor = .white
         collectionView.layer.cornerRadius = 8
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(hourlyCollectionCell.self, forCellWithReuseIdentifier: hourlyCollectionCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -216,7 +217,7 @@ class MainPageViewController: UIViewController {
             holderViewForCollectionView.topAnchor.constraint(equalTo: hourlyLabel.bottomAnchor, constant: 10),
             holderViewForCollectionView.leftAnchor.constraint(equalTo: holderView.leftAnchor, constant: 16),
             holderViewForCollectionView.rightAnchor.constraint(equalTo: holderView.rightAnchor, constant: -16),
-            holderViewForCollectionView.heightAnchor.constraint(equalToConstant: 90.0),
+            holderViewForCollectionView.heightAnchor.constraint(equalToConstant: 95.0),
             
             hourlyCollectionView.topAnchor.constraint(equalTo: holderViewForCollectionView.topAnchor, constant: 0),
             hourlyCollectionView.bottomAnchor.constraint(equalTo: holderViewForCollectionView.bottomAnchor, constant: 0),
@@ -230,7 +231,7 @@ class MainPageViewController: UIViewController {
             next7DaysTableView.topAnchor.constraint(equalTo: next7DaysLabel.bottomAnchor, constant: 10),
             next7DaysTableView.leftAnchor.constraint(equalTo: next7DaysLabel.leftAnchor, constant: 0),
             next7DaysTableView.rightAnchor.constraint(equalTo: next7DaysLabel.rightAnchor, constant: 0),
-            next7DaysTableView.bottomAnchor.constraint(equalTo: holderView.bottomAnchor, constant: 0)
+            next7DaysTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
             
         ])
     }
