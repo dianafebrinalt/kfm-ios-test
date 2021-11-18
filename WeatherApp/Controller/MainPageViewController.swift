@@ -118,7 +118,7 @@ class MainPageViewController: UIViewController {
         view.layer.shadowOffset = CGSize(width: 1, height: 2)
         view.layer.borderWidth = 1
         view.layer.cornerRadius = 8
-        view.layer.shadowRadius = 2
+        view.layer.shadowRadius = 1
         view.layer.shadowOpacity = 5
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -133,6 +133,7 @@ class MainPageViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = true
         collectionView.backgroundColor = .white
         collectionView.layer.cornerRadius = 8
+        collectionView.register(hourlyCollectionCell.self, forCellWithReuseIdentifier: hourlyCollectionCell.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         return collectionView
@@ -141,6 +142,8 @@ class MainPageViewController: UIViewController {
     private lazy var next7DaysTableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .white
+        tableView.separatorStyle = .none
+        tableView.register(next7DaysTableCell.self, forCellReuseIdentifier: next7DaysTableCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
@@ -159,6 +162,8 @@ class MainPageViewController: UIViewController {
         navigationItem.searchController = searchController
         
         setupUI()
+        setupTableView()
+        setupCollectionView()
     }
     
     private func setupUI() {
@@ -215,7 +220,7 @@ class MainPageViewController: UIViewController {
             
             hourlyCollectionView.topAnchor.constraint(equalTo: holderViewForCollectionView.topAnchor, constant: 0),
             hourlyCollectionView.bottomAnchor.constraint(equalTo: holderViewForCollectionView.bottomAnchor, constant: 0),
-            hourlyCollectionView.leftAnchor.constraint(equalTo: holderViewForCollectionView.leftAnchor, constant: 0),
+            hourlyCollectionView.leftAnchor.constraint(equalTo: holderViewForCollectionView.leftAnchor, constant: 5),
             hourlyCollectionView.rightAnchor.constraint(equalTo: holderViewForCollectionView.rightAnchor, constant: 0),
             
             next7DaysLabel.topAnchor.constraint(equalTo: holderViewForCollectionView.bottomAnchor, constant: 20),
@@ -223,16 +228,78 @@ class MainPageViewController: UIViewController {
             next7DaysLabel.rightAnchor.constraint(equalTo: holderView.rightAnchor, constant: -16),
             
             next7DaysTableView.topAnchor.constraint(equalTo: next7DaysLabel.bottomAnchor, constant: 10),
-            next7DaysTableView.leftAnchor.constraint(equalTo: next7DaysLabel.leftAnchor, constant: 16),
-            next7DaysTableView.rightAnchor.constraint(equalTo: next7DaysLabel.rightAnchor, constant: -16),
+            next7DaysTableView.leftAnchor.constraint(equalTo: next7DaysLabel.leftAnchor, constant: 0),
+            next7DaysTableView.rightAnchor.constraint(equalTo: next7DaysLabel.rightAnchor, constant: 0),
             next7DaysTableView.bottomAnchor.constraint(equalTo: holderView.bottomAnchor, constant: 0)
             
         ])
     }
+    
+    private func setupTableView() {
+        next7DaysTableView.delegate = self
+        next7DaysTableView.dataSource = self
+    }
+    
+    private func setupCollectionView() {
+        hourlyCollectionView.delegate = self
+        hourlyCollectionView.dataSource = self
+    }
+}
+
+extension MainPageViewController:  UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: next7DaysTableCell.identifier, for: indexPath) as! next7DaysTableCell
+        
+        cell.dayLabel.text = "Kamis"
+        cell.dateLabel.text = "18 November 2021"
+        cell.temperatureLabel.text = "60˚C"
+        cell.imageWeather.image = UIImage(systemName: "sun.max.fill")
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
+}
+
+extension MainPageViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 6
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: hourlyCollectionCell.identifier, for: indexPath) as! hourlyCollectionCell
+        
+        cell.timeLabel.text = "12.00"
+        cell.temperatureLabel.text = "60˚C"
+        cell.weatherImage.image = UIImage(systemName: "sun.max.fill")
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 65, height: 85)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    
+    
 }
 
 extension UIFont {
-    class func rounded(ofSize size: CGFloat, weight: UIFont.Weight) -> UIFont {
+    public class func rounded(ofSize size: CGFloat, weight: UIFont.Weight) -> UIFont {
         let systemFont = UIFont.systemFont(ofSize: size, weight: weight)
         let font: UIFont
 

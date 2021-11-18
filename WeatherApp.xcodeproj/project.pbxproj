@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8B341C3027462C25004A9E64 /* FontType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B341C2F27462C25004A9E64 /* FontType.swift */; };
+		8B341C3327469906004A9E64 /* next7DaysTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B341C3227469906004A9E64 /* next7DaysTableCell.swift */; };
+		8B341C352746A971004A9E64 /* hourlyCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B341C342746A971004A9E64 /* hourlyCollectionCell.swift */; };
 		8B5F082D27457CF50090F37D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5F082C27457CF50090F37D /* AppDelegate.swift */; };
 		8B5F082F27457CF50090F37D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5F082E27457CF50090F37D /* SceneDelegate.swift */; };
 		8B5F083127457CF50090F37D /* MainPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B5F083027457CF50090F37D /* MainPageViewController.swift */; };
@@ -17,7 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8B341C2F27462C25004A9E64 /* FontType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontType.swift; sourceTree = "<group>"; };
+		8B341C3227469906004A9E64 /* next7DaysTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = next7DaysTableCell.swift; sourceTree = "<group>"; };
+		8B341C342746A971004A9E64 /* hourlyCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hourlyCollectionCell.swift; sourceTree = "<group>"; };
 		8B5F082927457CF50090F37D /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8B5F082C27457CF50090F37D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B5F082E27457CF50090F37D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,12 +65,13 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		8B341C2E27462C16004A9E64 /* Utils */ = {
+		8B341C3127464E80004A9E64 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				8B341C2F27462C25004A9E64 /* FontType.swift */,
+				8B341C3227469906004A9E64 /* next7DaysTableCell.swift */,
+				8B341C342746A971004A9E64 /* hourlyCollectionCell.swift */,
 			);
-			path = Utils;
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		8B5F082027457CF50090F37D = {
@@ -90,7 +93,7 @@
 		8B5F082B27457CF50090F37D /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
-				8B341C2E27462C16004A9E64 /* Utils */,
+				8B341C3127464E80004A9E64 /* Cell */,
 				8B341C2D2745FE43004A9E64 /* Controller */,
 				8B341C2C2745FE3B004A9E64 /* View */,
 				8B341C2B2745FE32004A9E64 /* Model */,
@@ -175,8 +178,9 @@
 			files = (
 				8B5F083127457CF50090F37D /* MainPageViewController.swift in Sources */,
 				8B5F082D27457CF50090F37D /* AppDelegate.swift in Sources */,
-				8B341C3027462C25004A9E64 /* FontType.swift in Sources */,
+				8B341C3327469906004A9E64 /* next7DaysTableCell.swift in Sources */,
 				8B5F082F27457CF50090F37D /* SceneDelegate.swift in Sources */,
+				8B341C352746A971004A9E64 /* hourlyCollectionCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
