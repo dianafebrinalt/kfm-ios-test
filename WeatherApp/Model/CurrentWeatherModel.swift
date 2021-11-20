@@ -7,14 +7,18 @@
 
 import Foundation
 
-struct CurrentWeather: Decodable {
-    let name: String?
-    let temp: Double?
-    let dt: Date?
-    let weather: [Weather]?
-}
-
-struct Weather: Decodable {
-    let main: String?
-    let icon: String?
+public struct CurrentWeatherModel{
+    let date: Date
+    let location: String
+    let temperature: String
+    let descriptionWeather: String
+    let icon: String
+    
+    init(data: APICurrentWeather) {
+        date = data.dt
+        location = data.name
+        temperature = "\(data.temp)"
+        descriptionWeather = data.weather.first?.main ?? ""
+        icon = data.weather.first?.icon ?? ""
+    }
 }
