@@ -7,7 +7,6 @@
 
 import UIKit
 import CoreLocation
-import SDWebImage
 
 class MainPageViewController: UIViewController, UISearchBarDelegate {
     
