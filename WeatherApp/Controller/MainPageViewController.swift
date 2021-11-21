@@ -12,6 +12,13 @@ import SDWebImage
 class MainPageViewController: UIViewController {
     
     var searchController =  UISearchController()
+    
+    let currentWeatherAPIServices = CurrentWeatherAPIServices()
+    
+    var locationManager = CLLocationManager()
+    var currentLoc: CLLocation?
+    var latitude: CLLocationDegrees!
+    var longitude: CLLocationDegrees!
 
     private let holderView: UIView = {
         let view = UIView()
@@ -23,7 +30,7 @@ class MainPageViewController: UIViewController {
     
     private var currentDateLabel: UILabel = {
         let label = UILabel()
-        label.text = "Minggu, 21 November 2021"
+        label.text = "---"
         label.textColor = .black
         label.font = UIFont.rounded(ofSize: 18, weight: .regular)
         label.textAlignment = .left
@@ -34,7 +41,7 @@ class MainPageViewController: UIViewController {
     
     private var currentLocationLabel: UILabel = {
         let label = UILabel()
-        label.text = "Medan"
+        label.text = "---"
         label.textColor = .black
         label.font = UIFont.rounded(ofSize: 30.0, weight: .bold)
         label.textAlignment = .left
@@ -45,7 +52,7 @@ class MainPageViewController: UIViewController {
     
     private var currentTempLabel: UILabel = {
         let label = UILabel()
-        label.text = "60˚C"
+        label.text = "---"
         label.textColor = .black
         label.font = UIFont.rounded(ofSize: 60.0, weight: .heavy)
         label.textAlignment = .left
@@ -56,7 +63,7 @@ class MainPageViewController: UIViewController {
     
     private var currentDescWeatherLabel: UILabel = {
         let label = UILabel()
-        label.text = "Sunny"
+        label.text = "---"
         label.textColor = .black
         label.font = UIFont.rounded(ofSize: 35.0, weight: .semibold)
         label.textAlignment = .center
@@ -86,6 +93,13 @@ class MainPageViewController: UIViewController {
             NSAttributedString.Key.font: UIFont.rounded(ofSize: 40, weight: .heavy)]
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.searchController = searchController
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        
+        print(loadDataBasedOnCity(city: "Medan"))
         
         setupUI()
     }
@@ -122,6 +136,54 @@ class MainPageViewController: UIViewController {
             currentDescWeatherLabel.leftAnchor.constraint(equalTo: imageWeather.leftAnchor, constant: 16),
             currentDescWeatherLabel.rightAnchor.constraint(equalTo: imageWeather.rightAnchor, constant: -16)
         ])
+    }
+    
+    func loadDataBasedOnLatandLong(lat: String, long: String) {
+        currentWeatherAPIServices.getDataCurrentLocationWeatherFromLonLong(lat: lat, lon: long) { (currentWeather) in
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEEE, dd MMM yyyy"
+            let stringDate = formatter.string(from: Date(timeIntervalSince1970: TimeInterval(currentWeather.dt)))
+            
+            DispatchQueue.main.async { [self] in
+                self.currentDateLabel.text = stringDate
+                self.currentLocationLabel.text = "\(currentWeather.name ?? "") , \(currentWeather.sys.country ?? "")"
+                self.currentTempLabel.text = "\(currentWeather.main.temp)"
+                self.imageWeather.loadImageFromURL(url: "http://openweathermap.org/img/wn/\(currentWeather.weather.first?.icon)@2x.png")
+                self.currentDescWeatherLabel.text = currentWeather.weather.first?.description
+                UserDefaults.standard.set("\(currentWeather.name ?? "")", forKey: "SelectedCity")
+            }
+        }
+    }
+    
+    func loadDataBasedOnCity(city: String) {
+        currentWeatherAPIServices.getDataCurrentWeatherBasedOnCity(city: city) { (currentWeather) in
+            let formatter = DateFormatter()
+            formatter.dateFormat = "EEEE, dd MMM yyyy"
+            let stringDate = formatter.string(from: Date(timeIntervalSince1970: TimeInterval(currentWeather.dt)))
+            
+            DispatchQueue.main.async { [self] in
+                self.currentDateLabel.text = stringDate
+                self.currentLocationLabel.text = "\(currentWeather.name ?? "") , \(currentWeather.sys.country ?? "")"
+                self.currentTempLabel.text = "\(currentWeather.main.temp)"
+                self.imageWeather.loadImageFromURL(url: "http://openweathermap.org/img/wn/\(currentWeather.weather.first?.icon)@2x.png")
+                self.currentDescWeatherLabel.text = currentWeather.weather.first?.description
+                UserDefaults.standard.set("\(currentWeather.name ?? "")", forKey: "SelectedCity")
+            }
+        }
+    }
+}
+
+extension MainPageViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        manager.stopUpdatingLocation()
+        manager.delegate = nil
+        
+        let location = locations[0].coordinate
+        latitude = location.latitude
+        longitude = location.longitude
+        print("Lat ", latitude.description)
+        print("Long ", longitude.description)
+        loadDataBasedOnLatandLong(lat: latitude.description, long: longitude.description)
     }
 }
 
