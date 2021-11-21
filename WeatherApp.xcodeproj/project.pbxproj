@@ -17,7 +17,6 @@
 		8B5F083927457CF60090F37D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8B5F083727457CF60090F37D /* LaunchScreen.storyboard */; };
 		8B70DE0C2749123D007F97EA /* CurrentWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B70DE0B2749123D007F97EA /* CurrentWeatherModel.swift */; };
 		8B70DE0E27491280007F97EA /* CurrentWeatherAPIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B70DE0D27491280007F97EA /* CurrentWeatherAPIServices.swift */; };
-		8B70DE1427492CDA007F97EA /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 8B70DE1327492CDA007F97EA /* SDWebImage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +39,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8B70DE1427492CDA007F97EA /* SDWebImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,7 +144,6 @@
 			);
 			name = WeatherApp;
 			packageProductDependencies = (
-				8B70DE1327492CDA007F97EA /* SDWebImage */,
 			);
 			productName = WeatherApp;
 			productReference = 8B5F082927457CF50090F37D /* WeatherApp.app */;
@@ -177,7 +174,6 @@
 			);
 			mainGroup = 8B5F082027457CF50090F37D;
 			packageReferences = (
-				8B70DE1227492CDA007F97EA /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = 8B5F082A27457CF50090F37D /* Products */;
 			projectDirPath = "";
@@ -432,25 +428,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		8B70DE1227492CDA007F97EA /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		8B70DE1327492CDA007F97EA /* SDWebImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8B70DE1227492CDA007F97EA /* XCRemoteSwiftPackageReference "SDWebImage" */;
-			productName = SDWebImage;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8B5F082127457CF50090F37D /* Project object */;
 }
