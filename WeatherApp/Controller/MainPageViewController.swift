@@ -9,10 +9,10 @@ import UIKit
 import CoreLocation
 import SDWebImage
 
-class MainPageViewController: UIViewController {
+class MainPageViewController: UIViewController, UISearchBarDelegate {
     
-    var searchController =  UISearchController()
-    
+    var searchLocation = UISearchController()
+
     let currentWeatherAPIServices = CurrentWeatherAPIServices()
     
     var locationManager = CLLocationManager()
@@ -30,9 +30,9 @@ class MainPageViewController: UIViewController {
     
     private var currentDateLabel: UILabel = {
         let label = UILabel()
-        label.text = "---"
+        label.text = " "
         label.textColor = .black
-        label.font = UIFont.rounded(ofSize: 18, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -41,9 +41,9 @@ class MainPageViewController: UIViewController {
     
     private var currentLocationLabel: UILabel = {
         let label = UILabel()
-        label.text = "---"
+        label.text = " "
         label.textColor = .black
-        label.font = UIFont.rounded(ofSize: 30.0, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 30.0, weight: .bold)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -52,9 +52,9 @@ class MainPageViewController: UIViewController {
     
     private var currentTempLabel: UILabel = {
         let label = UILabel()
-        label.text = "---"
+        label.text = " "
         label.textColor = .black
-        label.font = UIFont.rounded(ofSize: 60.0, weight: .heavy)
+        label.font = UIFont.systemFont(ofSize: 60.0, weight: .heavy)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -63,9 +63,9 @@ class MainPageViewController: UIViewController {
     
     private var currentDescWeatherLabel: UILabel = {
         let label = UILabel()
-        label.text = "---"
+        label.text = " "
         label.textColor = .black
-        label.font = UIFont.rounded(ofSize: 35.0, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 35.0, weight: .bold)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -90,18 +90,19 @@ class MainPageViewController: UIViewController {
         navigationItem.title = "Weather App"
         navigationController?.navigationBar.largeTitleTextAttributes = [
             NSAttributedString.Key.foregroundColor: UIColor(red: 36/255, green: 36/255, blue: 36/255, alpha: 100/100),
-            NSAttributedString.Key.font: UIFont.rounded(ofSize: 40, weight: .heavy)]
+            NSAttributedString.Key.font: UIFont.systemFont(ofSize: 38, weight: .heavy)]
         navigationItem.largeTitleDisplayMode = .always
-        navigationItem.searchController = searchController
+        navigationItem.searchController = searchLocation
+        searchLocation.searchBar.delegate = self
         
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
         
-        print(loadDataBasedOnCity(city: "Medan"))
-        
         setupUI()
+        loadDataBasedOnCity(city: "Medan")
+//        loadDataBasedOnLatandLong(lat: latitude.description!, long: longitude.description!)
     }
     
     private func setupUI() {
@@ -148,9 +149,8 @@ class MainPageViewController: UIViewController {
                 self.currentDateLabel.text = stringDate
                 self.currentLocationLabel.text = "\(currentWeather.name ?? "") , \(currentWeather.sys.country ?? "")"
                 self.currentTempLabel.text = "\(currentWeather.main.temp)"
-                self.imageWeather.loadImageFromURL(url: "http://openweathermap.org/img/wn/\(currentWeather.weather.first?.icon)@2x.png")
-                self.currentDescWeatherLabel.text = currentWeather.weather.first?.description
-                UserDefaults.standard.set("\(currentWeather.name ?? "")", forKey: "SelectedCity")
+                self.imageWeather.loadImageFromURL(url: "http://openweathermap.org/img/wn/\(currentWeather.weather[0].icon)@2x.png")
+                self.currentDescWeatherLabel.text = currentWeather.weather[0].description.capitalized
             }
         }
     }
@@ -165,10 +165,16 @@ class MainPageViewController: UIViewController {
                 self.currentDateLabel.text = stringDate
                 self.currentLocationLabel.text = "\(currentWeather.name ?? "") , \(currentWeather.sys.country ?? "")"
                 self.currentTempLabel.text = "\(currentWeather.main.temp)"
-                self.imageWeather.loadImageFromURL(url: "http://openweathermap.org/img/wn/\(currentWeather.weather.first?.icon)@2x.png")
-                self.currentDescWeatherLabel.text = currentWeather.weather.first?.description
-                UserDefaults.standard.set("\(currentWeather.name ?? "")", forKey: "SelectedCity")
+                self.imageWeather.loadImageFromURL(url: "http://openweathermap.org/img/wn/\(currentWeather.weather[0].icon)@2x.png")
+                self.currentDescWeatherLabel.text = currentWeather.weather[0].description.capitalized
             }
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        if let locationString = searchBar.text, !locationString.isEmpty {
+            loadDataBasedOnCity(city: locationString)
         }
     }
 }
@@ -186,7 +192,6 @@ extension MainPageViewController: CLLocationManagerDelegate {
         loadDataBasedOnLatandLong(lat: latitude.description, long: longitude.description)
     }
 }
-
 
 extension UIFont {
     public class func rounded(ofSize size: CGFloat, weight: UIFont.Weight) -> UIFont {
