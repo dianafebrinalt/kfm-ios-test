@@ -101,8 +101,7 @@ class MainPageViewController: UIViewController, UISearchBarDelegate {
         locationManager.startUpdatingLocation()
         
         setupUI()
-        loadDataBasedOnCity(city: "Medan")
-//        loadDataBasedOnLatandLong(lat: latitude.description!, long: longitude.description!)
+        loadDataBasedOnCity(city: "Pematangsiantar")
     }
     
     private func setupUI() {
