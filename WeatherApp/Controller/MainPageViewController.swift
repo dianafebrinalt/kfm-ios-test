@@ -23,8 +23,9 @@ class MainPageViewController: UIViewController {
     
     private var currentDateLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
-        label.font = UIFont.rounded(ofSize: 13, weight: .regular)
+        label.text = "Minggu, 21 November 2021"
+        label.textColor = .black
+        label.font = UIFont.rounded(ofSize: 18, weight: .regular)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -34,8 +35,8 @@ class MainPageViewController: UIViewController {
     private var currentLocationLabel: UILabel = {
         let label = UILabel()
         label.text = "Medan"
-        label.textColor = .white
-        label.font = UIFont.rounded(ofSize: 25.0, weight: .bold)
+        label.textColor = .black
+        label.font = UIFont.rounded(ofSize: 30.0, weight: .bold)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -45,8 +46,8 @@ class MainPageViewController: UIViewController {
     private var currentTempLabel: UILabel = {
         let label = UILabel()
         label.text = "60˚C"
-        label.textColor = .white
-        label.font = UIFont.rounded(ofSize: 40.0, weight: .heavy)
+        label.textColor = .black
+        label.font = UIFont.rounded(ofSize: 60.0, weight: .heavy)
         label.textAlignment = .left
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -56,8 +57,8 @@ class MainPageViewController: UIViewController {
     private var currentDescWeatherLabel: UILabel = {
         let label = UILabel()
         label.text = "Sunny"
-        label.textColor = .white
-        label.font = UIFont.rounded(ofSize: 15.0, weight: .semibold)
+        label.textColor = .black
+        label.font = UIFont.rounded(ofSize: 35.0, weight: .semibold)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -66,8 +67,8 @@ class MainPageViewController: UIViewController {
     
     private var imageWeather: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "sun.max.fill")
-        imageView.tintColor = .yellow
+        imageView.image = UIImage(systemName: "cloud.fill")
+        imageView.tintColor = .gray
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -106,18 +107,18 @@ class MainPageViewController: UIViewController {
             currentDateLabel.topAnchor.constraint(equalTo: holderView.topAnchor, constant: 20),
             currentDateLabel.leftAnchor.constraint(equalTo: holderView.leftAnchor, constant: 16),
             
-            currentLocationLabel.topAnchor.constraint(equalTo: holderView.topAnchor, constant: 20),
+            currentLocationLabel.topAnchor.constraint(equalTo: currentDateLabel.bottomAnchor, constant: 20),
             currentLocationLabel.leftAnchor.constraint(equalTo: holderView.leftAnchor, constant: 16),
             
-            currentTempLabel.topAnchor.constraint(equalTo: holderView.topAnchor, constant: 20),
+            currentTempLabel.topAnchor.constraint(equalTo: currentLocationLabel.bottomAnchor, constant: 20),
             currentTempLabel.leftAnchor.constraint(equalTo: holderView.leftAnchor, constant: 16),
             
             imageWeather.centerYAnchor.constraint(equalTo: holderView.centerYAnchor),
             imageWeather.leftAnchor.constraint(equalTo: holderView.leftAnchor, constant: 16),
             imageWeather.rightAnchor.constraint(equalTo: holderView.rightAnchor, constant: -16),
-            imageWeather.heightAnchor.constraint(equalToConstant: 100),
+            imageWeather.heightAnchor.constraint(equalToConstant: 200.0),
             
-            currentDescWeatherLabel.topAnchor.constraint(equalTo: imageWeather.bottomAnchor, constant: 10),
+            currentDescWeatherLabel.topAnchor.constraint(equalTo: imageWeather.bottomAnchor, constant: 16),
             currentDescWeatherLabel.leftAnchor.constraint(equalTo: imageWeather.leftAnchor, constant: 16),
             currentDescWeatherLabel.rightAnchor.constraint(equalTo: imageWeather.rightAnchor, constant: -16)
         ])
