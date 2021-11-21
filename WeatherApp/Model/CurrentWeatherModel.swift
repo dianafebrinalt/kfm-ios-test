@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct CurrentWeatherModel: Decodable {
     let name: String

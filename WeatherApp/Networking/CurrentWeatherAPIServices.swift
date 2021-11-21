@@ -6,32 +6,22 @@
 //
 
 import UIKit
-import CoreLocation
+import Foundation
 
-public class CurrentWeatherAPIServices: NSObject {
+class CurrentWeatherAPIServices: NetworkingProtocol {
     
-    private let locationManager = CLLocationManager()
-    private var completionHandler: ((CurrentWeatherModel) -> Void)?
-    
-    public override init() {
-        super.init()
-        locationManager.delegate = self
-    }
-    
-    public func fetchCurrentWeatherData(_ completionHandler: @escaping((CurrentWeatherModel) -> Void)) {
-        self.completionHandler = completionHandler
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-    }
-    
-    private func requestCurrentWeatherDataFromApi(withLocation location: CLLocationCoordinate2D) {
-        let API_KEY = "dd03a9512ea492f0f87187cd95e26ceb"
+    func fetchDataCurrentLocationWeatherFromLonLong(lat: String, lon: String, completion: @escaping (CurrentWeatherModel) -> ()) {
+        let apiKey = "dd03a9512ea492f0f87187cd95e26ceb"
         
-        guard let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(location.latitude)&lon=\(location.longitude)&appid=\(API_KEY)&units=metric".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else { return }
+        let API_URL = "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=metric"
         
-        guard let url = URL(string: urlString) else { return }
+        guard let url = URL(string: API_URL) else {
+            fatalError()
+        }
         
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+        let urlRequest = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             guard let response = response as? HTTPURLResponse else {
                 print("Response is Empty or Response not detect. Try it again!")
                 return
@@ -44,28 +34,47 @@ public class CurrentWeatherAPIServices: NSObject {
             }
             
             do {
-                let decoder = JSONDecoder()
-                let jsonCurrentWeatherData = try decoder.decode(APICurrentWeather.self, from: data)
-                
-                DispatchQueue.main.async {
-                    self.completionHandler?(CurrentWeatherModel(data: jsonCurrentWeatherData))
-                    print(jsonCurrentWeatherData)
-                }
-            } catch let error {
+                let dataCurrentLocationWeather = try JSONDecoder().decode(CurrentWeatherModel.self, from: data)
+                completion(dataCurrentLocationWeather)
+            } catch {
                 print(error.localizedDescription)
             }
         }
         task.resume()
     }
-}
-
-extension CurrentWeatherAPIServices: CLLocationManagerDelegate {
-    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first else { return }
-        requestCurrentWeatherDataFromApi(withLocation: location.coordinate)
-    }
     
-    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("The error is \(error.localizedDescription)")
+    func fetchDataCurrentWeatherBasedOnCity(city: String, completion: @escaping (CurrentWeatherModel) -> ()) {
+        let formattedCity = city.replacingOccurrences(of: " ", with: "+")
+        
+        let apiKey = "dd03a9512ea492f0f87187cd95e26ceb"
+        
+        let API_URL = "http://api.openweathermap.org/data/2.5/weather?q=\(formattedCity)&appid=\(apiKey)&units=metric"
+        
+        guard let url = URL(string: API_URL) else {
+            fatalError()
+        }
+        
+        let urlRequest = URLRequest(url: url)
+        
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            guard let response = response as? HTTPURLResponse else {
+                print("Response is Empty or Response not detect. Try it again!")
+                return
+            }
+            print("HTTP Status : \(response)")
+            
+            guard let data = data else{
+                print("There is no data, hikssss :((")
+                return
+            }
+            
+            do {
+                let dataCurrentLocationWeather = try JSONDecoder().decode(CurrentWeatherModel.self, from: data)
+                completion(dataCurrentLocationWeather)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        task.resume()
     }
 }
