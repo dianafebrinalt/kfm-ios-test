@@ -10,7 +10,7 @@ import Foundation
 
 class CurrentWeatherAPIServices: NetworkingProtocol {
     
-    func fetchDataCurrentLocationWeatherFromLonLong(lat: String, lon: String, completion: @escaping (CurrentWeatherModel) -> ()) {
+    func getDataCurrentLocationWeatherFromLonLong(lat: String, lon: String, completion: @escaping (CurrentWeatherModel) -> ()) {
         let apiKey = "dd03a9512ea492f0f87187cd95e26ceb"
         
         let API_URL = "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=\(apiKey)&units=metric"
@@ -43,7 +43,7 @@ class CurrentWeatherAPIServices: NetworkingProtocol {
         task.resume()
     }
     
-    func fetchDataCurrentWeatherBasedOnCity(city: String, completion: @escaping (CurrentWeatherModel) -> ()) {
+    func getDataCurrentWeatherBasedOnCity(city: String, completion: @escaping (CurrentWeatherModel) -> ()) {
         let formattedCity = city.replacingOccurrences(of: " ", with: "+")
         
         let apiKey = "dd03a9512ea492f0f87187cd95e26ceb"
